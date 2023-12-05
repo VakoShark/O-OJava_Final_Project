@@ -2,11 +2,12 @@ package blockGame;
 
 public class Player {
     private int x, y;
+    private static final int JUMP_SIZE = 50;
 
     public Player() {
         // Initial player position
-        x = 0;
-        y = 0;
+        x = JUMP_SIZE;
+        y = JUMP_SIZE;
     }
 
     public int getX() {
@@ -17,8 +18,11 @@ public class Player {
         return y;
     }
 
-    public void move(int dx, int dy) {
-        x += dx;
-        y += dy;
+    public void setX(int x) {
+    	this.x = x;
+    }
+    
+    public void setY(int y) {
+    	this.y = y;
     }
 }
