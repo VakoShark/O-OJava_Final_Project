@@ -1,15 +1,11 @@
 package blockGame;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 class GameBoard extends JFrame {
-    private static final int TILE_SIZE = 50;
-    private JButton[][] tiles;
+    private static final int JUMP_SIZE = 50;
     private Player player;
     private Block block;
 
@@ -17,37 +13,26 @@ class GameBoard extends JFrame {
     	this.player = player;
     	this.block = block;
     	
-        setTitle("Block Pushing Game");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(gridSize, gridSize));
         initializeBoard(gridSize);
         addKeyListener(new ArrowKeyListener());
         setFocusable(true);
-        setSize(gridSize * TILE_SIZE, gridSize * TILE_SIZE);
+        setSize(gridSize * JUMP_SIZE, gridSize * JUMP_SIZE);
         setLocationRelativeTo(null);
-        setVisible(true);
     }
 
     private void initializeBoard(int gridSize) {
-        tiles = new JButton[gridSize][gridSize];
-
-        for (int i = 0; i < gridSize; i++) {
-            for (int j = 0; j < gridSize; j++) {
-                JButton button = new JButton();
-                button.setPreferredSize(new Dimension(TILE_SIZE, TILE_SIZE));
-                tiles[i][j] = button;
-                add(button);
-            }
-        }
-    }
-
-    public void updateTile(int x, int y, String text) {
-        tiles[x][y].setText(text);
+        JFrame frame = new JFrame ("Block Pushing Game");
+        frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().add (new GameBoard(JUMP_SIZE * gridSize, player, block));
+        frame.pack();
+        frame.setVisible(true);
     }
     
     public void updateGameBoard() {
-        updateTile(player.getX(), player.getY(), "P");
-        updateTile(block.getX(), block.getY(), "B");
+    	player.getX();
+    	player.getY();
+    	block.getX();
+    	block.getY();
     }
 
     private class ArrowKeyListener implements KeyListener {
@@ -64,16 +49,16 @@ class GameBoard extends JFrame {
 
             switch (keyCode) {
                 case KeyEvent.VK_UP:
-                    player.move(-1, 0);
+                    player.setY(-JUMP_SIZE);
                     break;
                 case KeyEvent.VK_DOWN:
-                    player.move(1, 0);
+                    player.setY(JUMP_SIZE);
                     break;
                 case KeyEvent.VK_LEFT:
-                	player.move(0, -1);          
+                	player.setX(-JUMP_SIZE);          
                 	break;
                 case KeyEvent.VK_RIGHT:
-                    player.move(0, 1);
+                    player.setX(JUMP_SIZE);
                     break;	
             }
             
