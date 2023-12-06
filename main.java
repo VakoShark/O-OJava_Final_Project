@@ -1,21 +1,20 @@
 package blockGame;
 
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
 import javax.swing.JFrame;
 public class main {
 
 	public static void main(String[] args) {
-	      JFrame frame = new JFrame ("Block Game");
-	      frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+		
+	    BlockPushingGame bpg = new BlockPushingGame();
+		
+	    JFrame frame = new JFrame ("Block Game");
+	    frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
 
-	      frame.getContentPane().add (new BlockPushingGame());
+	    frame.getContentPane().add (bpg);
 
-	      frame.pack();
-	      frame.setVisible(true);	
-	      }
+	    frame.pack();
+	    frame.setVisible(true);
+	}
 /*		        String imageName = "block.png";
 
 		        if (imageExists(imageName)) {
