@@ -17,6 +17,8 @@ private final int IMAGE_SIZE = 1;
 
 private ImageIcon up, down, right, left, currentImage, pushBlock, goalBlock;
 private int x, y;
+private int pushBlockX = 300;
+private int pushBlockY = 250;
 
 //-----------------------------------------------------------------
 //  Constructor: Sets up this panel and loads the images.
@@ -51,7 +53,7 @@ public void paintComponent (Graphics page)
   super.paintComponent (page);
   currentImage.paintIcon (this, page, x, y);
   
-  pushBlock.paintIcon(this, page, 150, 150);
+  pushBlock.paintIcon(this, page, pushBlockX, pushBlockY);
   goalBlock.paintIcon(this, page, 650, 450);
 }
 
@@ -65,30 +67,34 @@ private class DirectionListener implements KeyListener
   //  image and image location accordingly.
   //--------------------------------------------------------------
   public void keyPressed (KeyEvent event)
-  {
+  {  
+	  int nextX = x;
+	  int nextY = y;
+	  
      switch (event.getKeyCode())
      {
         case KeyEvent.VK_UP:
-           currentImage = up;
-           y -= JUMP;
+           nextY -= JUMP;
            break;
         case KeyEvent.VK_DOWN:
-           currentImage = down;
-           y += JUMP;
+           nextY += JUMP;
            break;
         case KeyEvent.VK_LEFT:
-           currentImage = left;
-           x -= JUMP;
+           nextX -= JUMP;
            break;
         case KeyEvent.VK_RIGHT:
-           currentImage = right;
-           x += JUMP;
+           nextX += JUMP;
            break;
      }
-
+     
+     if (!checkCollision(nextX, nextY)) {
+    	 x = nextX;
+    	 y = nextY;
+     }
+     
      repaint();
   }
-
+  
   //--------------------------------------------------------------
   //  Provide empty definitions for unused event methods.
   //--------------------------------------------------------------
@@ -96,5 +102,22 @@ private class DirectionListener implements KeyListener
   public void keyReleased (KeyEvent event) {}
 }
 
-
+private boolean checkCollision(int newX, int newY) {
+    // Check for collision with push block
+    if (newX == pushBlockX && newY == pushBlockY) {
+        // Check if the next position after pushing is within bounds
+        int newPushBlockX = pushBlockX + (newX - x);
+        int newPushBlockY = pushBlockY + (newY - y);
+        if (newPushBlockX >= 0 && newPushBlockX < WIDTH &&
+            newPushBlockY >= 0 && newPushBlockY < HEIGHT) {
+            pushBlockX = newPushBlockX;
+            pushBlockY = newPushBlockY;
+            return true; // Collision successful, push_block moved
+        }
+    }
+    if (pushBlockX == 650 && pushBlockY == 450) {
+    	System.out.println("You Reached the Goal!");
+    }
+    return false; // No collision
+}
 }
