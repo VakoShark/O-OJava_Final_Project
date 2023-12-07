@@ -3,26 +3,28 @@ package blockGame;
 //DirectionPanel.java       Author: Lewis/Loftus
 //
 //Represents the primary display panel for the Direction program.
+//Modified to fit needs of block game
 //********************************************************************
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class BlockPushingGame extends JPanel
 {
 private final int WIDTH = 700, HEIGHT = 500;
 private final int JUMP = 10;  // increment for image movement
 
-private ImageIcon currentImage, pushBlock, goalBlock;
+private ImageIcon playerBlock, pushBlock, goalBlock;
 private int x, y;
 public int pushBlockX = 300;
 public int pushBlockY = 250;
+private int pushBlockXInitial = pushBlockX;
+private int pushBlockYInitial = pushBlockY;
 private int goalBlockX = 650;
 private int goalBlockY = 450;
 
-//-----------------------------------------------------------------
-//  Constructor: Sets up this panel and loads the images.
-//-----------------------------------------------------------------
+//Constructor: Sets up this panel and loads the images.
 public BlockPushingGame()
 {
   addKeyListener (new DirectionListener());
@@ -30,7 +32,7 @@ public BlockPushingGame()
   x = 0;
   y = 0;
 
-  currentImage = new ImageIcon ("player_block.png");
+  playerBlock = new ImageIcon ("player_block.png");
 	  
   setBackground (Color.black);
   setPreferredSize (new Dimension(WIDTH, HEIGHT));
@@ -40,13 +42,11 @@ public BlockPushingGame()
   goalBlock = new ImageIcon("goal_block.png");
 }
 
-//-----------------------------------------------------------------
-//  Draws the image in the current location.
-//-----------------------------------------------------------------
+//Draws the image in the current location.
 public void paintComponent (Graphics page)
 {
   super.paintComponent (page);
-  currentImage.paintIcon (this, page, x, y);
+  playerBlock.paintIcon (this, page, x, y);
   
   pushBlock.paintIcon(this, page, pushBlockX, pushBlockY);
   goalBlock.paintIcon(this, page, 650, 450);
@@ -57,10 +57,8 @@ public void paintComponent (Graphics page)
 //*****************************************************************
 private class DirectionListener implements KeyListener
 {
-  //--------------------------------------------------------------
-  //  Responds to the user pressing arrow keys by adjusting the
-  //  image and image location accordingly.
-  //--------------------------------------------------------------
+  //Responds to the user pressing arrow keys by adjusting the
+  //image and image location accordingly.
 	
 	private int nextX, nextY;
 	
@@ -97,19 +95,19 @@ private class DirectionListener implements KeyListener
      if (wallCollision(nextX, nextY)) {
     	 x -= nextX;
     	 y -= nextY;
+    	 pushBlockX = pushBlockXInitial;
+    	 pushBlockY = pushBlockYInitial;
      }
      
      repaint();
   }
   
-  //--------------------------------------------------------------
-  //  Provide empty definitions for unused event methods.
-  //--------------------------------------------------------------
+  //Provide empty definitions for unused event methods.
   public void keyTyped (KeyEvent event) {}
   public void keyReleased (KeyEvent event) {}
 }
 
-
+//Checks for collision between player block and pushable block
 private boolean checkCollision(int newX, int newY) {
     // Check for collision with push block
     if (newX == pushBlockX && newY == pushBlockY) {
@@ -123,12 +121,10 @@ private boolean checkCollision(int newX, int newY) {
             return true; // Collision successful, push_block moved
         }
     }
-    if (pushBlockX == 650 && pushBlockY == 450) {
-    	System.out.println("You Reached the Goal!");
-    }
     return false; // No collision
 }
 
+//Creates collision effect on boundaries of screen
 private boolean wallCollision(int newX, int newY) {
     // Check for collision with push block
     if (newX >= 670 || newX < 0 || newY >= 500 || newY < 0) {
@@ -138,6 +134,7 @@ private boolean wallCollision(int newX, int newY) {
     return false; // No collision
 }
 
+//Determines if victory condition is hit
 private boolean victoryCondition(int newX, int newY) {
 	if(pushBlockX == goalBlockX && pushBlockY == goalBlockY) {
 		return true;
