@@ -13,6 +13,7 @@ public class main {
 	    frame.getContentPane().add (bpg);
 
 	    frame.pack();
+	    frame.setLocationRelativeTo(null);
 	    frame.setVisible(true);
 	}
 /*		        String imageName = "block.png";
