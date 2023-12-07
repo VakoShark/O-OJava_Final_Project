@@ -13,7 +13,7 @@ public class BlockPushingGame extends JPanel
 private final int WIDTH = 700, HEIGHT = 500;
 private final int JUMP = 10;  // increment for image movement
 
-private ImageIcon up, down, right, left, currentImage, pushBlock, goalBlock;
+private ImageIcon currentImage, pushBlock, goalBlock;
 private int x, y;
 public int pushBlockX = 300;
 public int pushBlockY = 250;
@@ -30,12 +30,7 @@ public BlockPushingGame()
   x = 0;
   y = 0;
 
-  up = new ImageIcon ("player_block.png");
-  down = new ImageIcon ("player_block.png");
-  left = new ImageIcon ("player_block.png");
-  right = new ImageIcon ("player_block.png");
-
-  currentImage = right;
+  currentImage = new ImageIcon ("player_block.png");
 	  
   setBackground (Color.black);
   setPreferredSize (new Dimension(WIDTH, HEIGHT));
